@@ -28,3 +28,4 @@ Notion: https://kimsoobin1602.notion.site/217957a41faf8011aaa8da76eec79cb0?sourc
 
 ------
 김윤기 / 정보통신공학과 / 2023111944
+https://velog.io/@6262/%ED%8A%B8%EB%9E%99-%EC%A0%84%ED%99%98-%EA%B3%BC%EC%A0%9C-3%EC%A3%BC%EC%B0%A8

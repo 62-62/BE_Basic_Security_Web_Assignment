@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 상세</title>
+</head>
+<body>
+<h1>게시글 상세</h1>
+
+<p><strong>제목:</strong> <span th:text="${post.title}"></span></p>
+<p><strong>작성자:</strong> <span th:text="${post.writer}"></span></p>
+<p><strong>내용:</strong> <span th:text="${post.content}"></span></p>
+<p><strong>작성일:</strong> <span th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></span></p>
+
+<!-- 수정 버튼 -->
+<a th:href="@{|/board/${post.id}/edit|}">수정</a>
+
+<!-- 삭제 버튼 (JavaScript fetch로 DELETE 요청) -->
+<form id="deleteForm">
+  <button type="submit">삭제</button>
+</form>
+
+<a th:href="@{/posts}">목록으로</a>
+
+<script>
+  document.getElementById("deleteForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    if (confirm("정말 삭제하시겠습니까?")) {
+      fetch("/api/posts/" + [[${post.id}]], {
+        method: "DELETE"
+      }).then(() => {
+        alert("삭제되었습니다.");
+        location.href = "/posts";
+      });
+    }
+  });
+</script>
+</body>
+</html>

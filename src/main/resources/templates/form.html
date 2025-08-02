@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${post.id == null ? '글쓰기' : '글 수정'}"></title>
+</head>
+<body>
+<h1 th:text="${post.id == null ? '글쓰기' : '글 수정'}"></h1>
+
+<form id="postForm">
+  <input type="hidden" name="id" th:value="${post.id}" />
+
+  <p>제목: <input type="text" name="title" th:value="${post.title}" required /></p>
+  <p>작성자: <input type="text" name="writer" th:value="${post.writer}" required /></p>
+  <p>내용: <textarea name="content" required th:text="${post.content}"></textarea></p>
+
+  <button type="submit" th:text="${post.id == null ? '작성' : '수정'}"></button>
+</form>
+
+<script>
+  document.getElementById("postForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const id = form.id.value;
+
+    const data = {
+      title: form.title.value,
+      writer: form.writer.value,
+      content: form.content.value
+    };
+
+    const url = id ? `/api/posts/${id}` : "/api/posts";
+    const method = id ? "PATCH" : "POST";
+
+    console.log("id =", id, "url =", url, "method =", method);
+
+    fetch(url, {
+      method: method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("요청 실패");
+        return res.json();
+      })
+      .then(json => {
+        alert(id ? "수정 완료!" : "작성 완료!");
+        location.href = `/board/${json.id}`;
+      })
+      .catch(err => {
+        console.error(err);
+        alert("에러 발생! 콘솔 로그를 확인하세요.");
+      });
+  });
+</script>
+
+</body>
+</html>
+
